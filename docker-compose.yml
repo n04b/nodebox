@@ -9,3 +9,4 @@ services:
     volumes:
       - ./volumes/nodebox/workspace:/workspace
       - ./volumes/nodebox/pm2:/home/node/.pm2
+      - ./volumes/nodebox/webui:/data/webui

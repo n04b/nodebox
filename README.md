@@ -64,6 +64,8 @@ The process will appear in PM2 WebUI.
 
 - `/workspace` is bind-mounted and contains your applications.
 - `/pm2` stores PM2 state and logs.
+- `/data/webui` stores the PM2 WebUI `.env` (admin user and session secret),
+  so `setup-admin-user` only has to be run once and survives rebuilds.
 
 ## Important
 
