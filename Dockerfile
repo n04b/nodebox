@@ -18,9 +18,11 @@ RUN git clone --depth 1 https://github.com/isuryatk/pm2-webui.git /opt/pm2-webui
 RUN mkdir -p /workspace /home/node/.pm2 /home/node/.config         && chown -R node:node /workspace /home/node
 
 COPY supervisord.conf /etc/supervisor/conf.d/nodebox.conf
+COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 WORKDIR /workspace
 
 EXPOSE 4343 8080-8099
 
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
