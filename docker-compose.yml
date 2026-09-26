@@ -6,6 +6,11 @@ services:
     ports:
       - "4343:4343"
       - "8080-8099:8080-8099"
+    environment:
+      # Optional: seed the WebUI admin on first start (see .env.example).
+      # Written to the persistent .env once, then ignored.
+      PM2_WEBUI_USERNAME: ${PM2_WEBUI_USERNAME:-}
+      PM2_WEBUI_PASSWORD: ${PM2_WEBUI_PASSWORD:-}
     volumes:
       - ./volumes/nodebox/workspace:/workspace
       - ./volumes/nodebox/pm2:/home/node/.pm2

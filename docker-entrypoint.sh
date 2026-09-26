@@ -19,7 +19,18 @@ if [ ! -e "$WEBUI_ENV_DIR/.env" ]; then
         : > "$WEBUI_ENV_DIR/.env"
     fi
 fi
-chown -R node:node "$WEBUI_ENV_DIR"
 ln -sfn "$WEBUI_ENV_DIR/.env" /opt/pm2-webui/.env
+
+# Non-interactive admin setup: if PM2_WEBUI_USERNAME/PM2_WEBUI_PASSWORD are set
+# and no admin exists yet, seed one using the app's own hashing routine. This
+# replaces running `npm run setup-admin-user` by hand and lets pm2-webui start
+# without entering FATAL on a fresh volume.
+if [ -n "$PM2_WEBUI_USERNAME" ] && [ -n "$PM2_WEBUI_PASSWORD" ] \
+    && ! grep -q '^APP_USERNAME=' "$WEBUI_ENV_DIR/.env"; then
+    ( cd /opt/pm2-webui \
+        && node -e "require('./src/services/admin.service').createAdminUser(process.env.PM2_WEBUI_USERNAME, process.env.PM2_WEBUI_PASSWORD)" )
+fi
+
+chown -R node:node "$WEBUI_ENV_DIR"
 
 exec "$@"

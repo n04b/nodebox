@@ -23,18 +23,29 @@ http://localhost:4343
 
 ## First admin setup
 
-The upstream project provides an interactive setup command.
+### Option A: automatic (recommended)
+
+Copy `.env.example` to `.env`, set the credentials, and the admin user is
+created on first start:
+
+```bash
+cp .env.example .env
+# edit .env, then:
+docker compose up -d --build
+```
+
+The values are written once to the persistent WebUI `.env` and then ignored,
+so pm2-webui starts without needing a manual setup step.
+
+### Option B: interactive
+
+Leave the credentials unset and run the upstream setup command by hand:
 
 ```bash
 docker exec -it nodebox bash
 cd /opt/pm2-webui
 npm run setup-admin-user
-```
-
-Then restart the WebUI if needed:
-
-```bash
-docker compose restart
+docker compose restart nodebox
 ```
 
 ## Start a Node.js application
