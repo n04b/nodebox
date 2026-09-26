@@ -21,6 +21,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/nodebox.conf
 
 WORKDIR /workspace
 
-EXPOSE 4343
+EXPOSE 4343 8080-8099
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
